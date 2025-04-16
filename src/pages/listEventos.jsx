@@ -15,8 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import DeleteIcon from "@mui/icons-material/Delete"
 
-function listUsers() {
-  const [users, setUsers] = useState([]);
+function listEventos() {
+  const [eventos, setEventos] = useState([]);
   const [alert, setAlert] = useState({
     // Visibilidade
     open: false,
@@ -39,12 +39,12 @@ function listUsers() {
   }
 
   const navigate = useNavigate();
-  async function getUsers() {
+  async function getEventos() {
     // Chamada da Api
-    await api.getUsers().then(
+    await api.getEventos().then(
       (response) => {
-        console.log(response.data.users);
-        setUsers(response.data.users);
+        console.log(response.data.events);
+        setEventos(response.data.events);
       },
       (error) => {
         console.log("Erro ", error);
@@ -52,28 +52,29 @@ function listUsers() {
     );
   }
 
-  async function deleteUser(id){
+  async function deleteEvento(id){
     try{
-      await api.deleteUser(id);
-      await getUsers();
+      await api.deleteEvento(id);
+      await getEventos();
       // Mensagem informativa
-      showAlert("success", "Usuário excluído com sucesso!");
+      showAlert("success", "Evento excluído com sucesso!");
     }catch(error){
-      console.log("Erro ao deletar usuário...", error);
+      console.log("Erro ao deletar evento...", error);
       // Mensagem informativa de erro
       showAlert("error", error.response.data.error)
       
     }
   }
 
-  const listUsers = users.map((user) => {
+  const listEventos = eventos.map((evento) => {
     return (
-      <TableRow key={user.id_usuario}>
-        <TableCell align="center">{user.name}</TableCell>
-        <TableCell align="center">{user.email}</TableCell>
-        <TableCell align="center">{user.cpf}</TableCell>
+      <TableRow key={evento.id_evento}>
+        <TableCell align="center">{evento.nome}</TableCell>
+        <TableCell align="center">{evento.descricao}</TableCell>
+        <TableCell align="center">{evento.data_hora}</TableCell>
+        <TableCell align="center">{evento.local}</TableCell>
         <TableCell align="center">
-          <IconButton onClick={() => deleteUser(user.id_usuario)}>
+          <IconButton onClick={() => deleteEvento(evento.id_evento)}>
             <DeleteIcon color="error" />
           </IconButton>
         </TableCell>
@@ -85,7 +86,7 @@ function listUsers() {
     // if (!localStorage.getItem("authenticated")) {
     //   navigate("/");
     // }
-    getUsers();
+    getEventos();
   }, []);
 
   function logout() {
@@ -110,11 +111,11 @@ function listUsers() {
         </Alert>
       </Snackbar>
 
-      {users.length === 0 ? (
-        <h1>Carregando usuários</h1>
+      {eventos.length === 0 ? (
+        <h1>Carregando eventos</h1>
       ) : (
         <div>
-          <h5>Lista de usuários</h5>
+          <h5>Lista de eventos</h5>
           <TableContainer component={Paper} style={{ margin: "2px" }}>
             <Table size="small">
               <TableHead
@@ -122,35 +123,26 @@ function listUsers() {
               >
                 <TableRow>
                   <TableCell align="center">Nome</TableCell>
-                  <TableCell align="center">Email</TableCell>
-                  <TableCell align="center">CPF</TableCell>
+                  <TableCell align="center">Descrição</TableCell>
+                  <TableCell align="center">Data e Hora</TableCell>
+                  <TableCell align="center">Local</TableCell>
                   <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>{listUsers}</TableBody>
+              <TableBody>{listEventos}</TableBody>
             </Table>
           </TableContainer>
           <Button
             fullWidth
             variant="contained"
             component={Link}
-            to="/"
-            onClick={logout}
+            to="/users"
           >
-            SAIR
-          </Button>
-
-          <Button
-            fullWidth
-            variant="contained"
-            component={Link}
-            to="/eventos"
-          >
-            IR PARA EVENTOS
+            Ir para usuários
           </Button>
         </div>
       )}
     </div>
   );
 }
-export default listUsers;
+export default listEventos;
