@@ -134,20 +134,22 @@ function listUsers() {
             fullWidth
             variant="contained"
             component={Link}
+            to="/eventos"
+          >
+            IR PARA EVENTOS
+          </Button>
+          
+          <Button
+            fullWidth
+            variant="contained"
+            component={Link}
             to="/"
             onClick={logout}
           >
             SAIR
           </Button>
 
-          <Button
-            fullWidth
-            variant="contained"
-            component={Link}
-            to="/eventos"
-          >
-            IR PARA EVENTOS
-          </Button>
+          
         </div>
       )}
     </div>

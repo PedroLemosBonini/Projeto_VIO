@@ -14,6 +14,7 @@ import { Button, IconButton, Alert, Snackbar } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import DeleteIcon from "@mui/icons-material/Delete"
+import { Logout } from "@mui/icons-material";
 
 function listEventos() {
   const [eventos, setEventos] = useState([]);
@@ -139,6 +140,16 @@ function listEventos() {
             to="/users"
           >
             Ir para usuários
+          </Button>
+
+          <Button
+            fullWidth
+            variant="contained"
+            component={Link}
+            to="/"
+            onClick={logout}
+          >
+            SAIR
           </Button>
         </div>
       )}
