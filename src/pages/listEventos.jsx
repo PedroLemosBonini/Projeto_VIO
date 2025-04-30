@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
 import DeleteIcon from "@mui/icons-material/Delete"
 import { Logout } from "@mui/icons-material";
+import ModalCriarIngresso from "../components/ModalCriarIngresso";
 
 function listEventos() {
   const [eventos, setEventos] = useState([]);
@@ -67,6 +68,8 @@ function listEventos() {
     }
   }
 
+
+
   const listEventos = eventos.map((evento) => {
     return (
       <TableRow key={evento.id_evento}>
@@ -79,6 +82,11 @@ function listEventos() {
             <DeleteIcon color="error" />
           </IconButton>
         </TableCell>
+        <TableCell align="center">
+          <IconButton onClick={() => abrirModalIngresso(evento)}>
+            Adicionar
+          </IconButton>
+        </TableCell>
       </TableRow>
     );
   });
@@ -89,6 +97,19 @@ function listEventos() {
     // }
     getEventos();
   }, []);
+
+  const [eventoSelecionado, setEventoSelecionado] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const abrirModalIngresso = (evento) => {
+    setEventoSelecionado(evento);
+    setModalOpen(true);
+  };
+
+  const fecharModalIngresso = () => {
+    setModalOpen(false);
+    setEventoSelecionado("");
+  };
 
   function logout() {
     localStorage.removeItem("authenticated");
@@ -112,6 +133,12 @@ function listEventos() {
         </Alert>
       </Snackbar>
 
+      <ModalCriarIngresso
+        open={modalOpen}
+        onClose={fecharModalIngresso}
+        eventoSelecionado={eventoSelecionado}
+      />
+
       {eventos.length === 0 ? (
         <h1>Carregando eventos</h1>
       ) : (
@@ -128,6 +155,7 @@ function listEventos() {
                   <TableCell align="center">Data e Hora</TableCell>
                   <TableCell align="center">Local</TableCell>
                   <TableCell align="center">Ações</TableCell>
+                  <TableCell align="center">Criar Ingresso</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{listEventos}</TableBody>
