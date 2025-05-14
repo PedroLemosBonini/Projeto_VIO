@@ -31,6 +31,7 @@ function Login() {
       (response)=>{
         alert(response.data.message)
         localStorage.setItem('authenticated',true)
+        localStorage.setItem('token', response.data.token)
         navigate("users/")
       },
     (error)=>{
